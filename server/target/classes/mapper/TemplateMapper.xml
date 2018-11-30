@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 定义一个映射配置文件的根节点 -->
+<!-- namespace 属性用来定义配置命名空间， 主要进行 session 级别的缓存管理 -->
+<!-- namespace 默认使用当前操作实体类的全路径 -->
+<mapper namespace="com.kiss.message.mapper.TemplateMapper">
+    
+    <insert id="createTemplate" parameterType="com.kiss.message.entity.Template" useGeneratedKeys="true" keyProperty="id">
+        insert into templates (uniqid,clientId,type)
+        value
+        (#{uniqid},#{clientId},#{type})
+    </insert>
+    
+    <update id="updateTemplate" parameterType="com.kiss.message.entity.Template">
+        update templates
+        set
+        id = #{id}
+        <if test="uniqid != null">
+            ,uniqid = #{uniqid}
+        </if>
+        <if test="clientId != null">
+            ,clientId = #{clientId}
+        </if>
+        where id = #{id}
+    </update>
+    
+    <select id="getTemplateByUniqid" parameterType="java.lang.String" resultType="com.kiss.message.entity.Template">
+        select * from templates where uniqid = #{uniqid} limit 0,1;
+    </select>
+    
+    <select id="getTemplateOutputs" parameterType="java.lang.Integer" resultType="com.kiss.message.output.TemplateOutput">
+        select te.id,te.uniqid,te.clientId,te.count,UNIX_TIMESTAMP(te.createdAt)*1000 as createdAt,UNIX_TIMESTAMP(te.updatedAt)*1000 as updatedAt,cl.name from templates te
+        left join clients cl
+        on te.templateId = cl.id
+        where te.type = #{type}
+        limit #{start},#{size};
+    </select>
+    
+    <select id="getTemplateByUniqidAndClientId" parameterType="java.util.Map" resultType="com.kiss.message.entity.Template">
+        select * from templates where clientId = #{clientId} and uniqid = #{uniqid};
+    </select>
+
+    <update id="addTemplateCount" parameterType="java.lang.Integer">
+        update templates
+        set
+        count = count + 1
+        where id = #{id} and type = #{type}
+    </update>
+</mapper>
