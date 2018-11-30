@@ -1,9 +1,36 @@
 spring:
   application:
     name: kiss-message
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      username: root
+      password: Helloshic7!
+      url: jdbc:mysql://rm-j6ca5pt36q4h487712o.mysql.rds.aliyuncs.com/kiss-message?characterEncoding=utf-8&useSSL=false
 server:
   port: 8950
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+mail_service_master:
+  host: http://api.sendcloud.net/apiv2/mail/send
+  user: bisale.io
+  password: 123456
+  from: services@mailer.bisale.io
+
+sms_service_master:
+  host: http://intapi.253.com/send/json
+  user: abc
+  password: 123456
+
+redis:
+  host: localhost
+  port: 6379
+  password: 123456
+  cachePrefix: GOTMS_
+mybatis:
+  config-location: classpath:mybatis-config.xml
+env: test
+
+

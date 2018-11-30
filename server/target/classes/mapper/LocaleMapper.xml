@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 定义一个映射配置文件的根节点 -->
+<!-- namespace 属性用来定义配置命名空间， 主要进行 session 级别的缓存管理 -->
+<!-- namespace 默认使用当前操作实体类的全路径 -->
+<mapper namespace="com.kiss.message.mapper.LocaleMapper">
+
+    <insert id="createLocale" parameterType="com.kiss.message.entity.Locale" useGeneratedKeys="true" keyProperty="id">
+        insert into locales (templateId,lang,from,subject,content)
+        value
+        (#{templateId},#{lang},#{from},#{subject},#{content})
+    </insert>
+
+    <update id="updateLocale" parameterType="com.kiss.message.entity.Locale" keyProperty="id" useGeneratedKeys="true">
+        update locales 
+        set 
+        id = #{id}
+        <if test="template_id != null">
+            ,templateId = #{template_id}
+        </if>
+        <if test="lang != null">
+            ,lang = #{lang}
+        </if>
+        <if test="from != null">
+            ,from = #{from}
+        </if>
+        <if test="subject != null">
+            ,subject = #{subject}
+        </if>
+        <if test="content != null">
+            ,content = #{content}
+        </if>
+        where id = #{id}
+    </update>
+
+    <select id="getLocalByTemplateId" parameterType="java.util.Map" resultType="com.kiss.message.entity.Locale">
+        select * from templates where templateId = #{templateId} and lang = #{lang};
+    </select>
+</mapper>

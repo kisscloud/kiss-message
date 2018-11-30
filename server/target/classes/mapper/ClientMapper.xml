@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 定义一个映射配置文件的根节点 -->
+<!-- namespace 属性用来定义配置命名空间， 主要进行 session 级别的缓存管理 -->
+<!-- namespace 默认使用当前操作实体类的全路径 -->
+<mapper namespace="com.kiss.message.mapper.ClientMapper">
+
+    <insert id="createClient" parameterType="com.kiss.message.entity.Client" useGeneratedKeys="true" keyProperty="id">
+        insert into clients (uniqid,name,alias,status)
+        value
+        (#{uniqid},#{name},#{alias},#{status})
+    </insert>
+
+    <update id="updateClient" parameterType="com.kiss.message.entity.Client" useGeneratedKeys="true" keyProperty="id">
+        update clients
+        set
+        id = #{id}
+        <if test="uniqid != null">
+            ,uniqid = #{uniqid}
+        </if>
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="alias != null">
+            ,alias = #{alias}
+        </if>
+        <if test="status != null">
+            ,status = #{status}
+        </if>
+        where id = #{id}
+    </update>
+
+    <select id="getClientByUniqid" parameterType="java.lang.String" resultType="com.kiss.message.entity.Client">
+        select * from clients where uniqid = #{uniqid} limit 0,1;
+    </select>
+    
+    <select id="getClientByName" parameterType="java.lang.String" resultType="com.kiss.message.entity.Client">
+        select * from clients where name = #{name} limit 0,1;
+    </select>
+
+    <select id="getClients" parameterType="java.lang.Integer" resultType="com.kiss.message.entity.Client">
+        select * from clients limit #{start},#{size};
+    </select>
+
+    <select id="getClientById" parameterType="java.lang.Integer" resultType="com.kiss.message.entity.Client">
+        select * from clients where id = #{id};
+    </select>
+</mapper>
