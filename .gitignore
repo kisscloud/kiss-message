@@ -1,1 +1,4 @@
 .idea
+commin/target/
+client/target/
+server/target/

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import output.ResultOutput;
 
 @RestController
-@Api(tags = "client", description = "客户端相关接口")
+@Api(tags = "Client", description = "客户端相关接口")
 public class ClientController implements ClientClient {
 
     @Autowired

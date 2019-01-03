@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-@Api(tags = "message", description = "发送短信邮件相关接口")
+@Api(tags = "Message", description = "发送短信邮件相关接口")
 @Slf4j
 public class MessageController implements MessageClient {
 
@@ -38,7 +38,7 @@ public class MessageController implements MessageClient {
     }
 
     public static void main(String[] args) {
-        String content = "aaa{{ $code    }}dddd";
+        String content = "aaa{{ $code  }}dddd";
         String regex = String.format("\\{\\{\\s*\\$%s\\s*\\}\\}", "code");
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(content);
